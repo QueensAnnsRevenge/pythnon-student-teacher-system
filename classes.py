@@ -19,7 +19,7 @@ class predmet:
         
 
     def __str__(self) -> str:
-        return f"{self.naziv}({self.broj_ESPB})"
+        return f"{self.id} {self.naziv}({self.broj_ESPB})"
 
 class profesor:
 
@@ -30,17 +30,24 @@ class profesor:
         
 
     def __str__(self) -> str:
-        return f"{self.ime} {self.prezime}"
+        return f"{self.id} {self.ime} {self.prezime}"
 
 
 
 class ispit:
 
-    def __init__(self, ocena, student_id, predmet_id):
-        self.ocena = ocena
-        self.student = db.get_student(student_id)
-        self.predmet = db.get_predmet(predmet_id)
+    def __init__(self, id, profesor, predmet, datum):
+        self.id = id
+        self.profesor = profesor
+        self.predmet = predmet
+        self.datum = datum
 
 
     def __str__(self) -> str:
-        return f"{self.ocena}"
+        return f"Predmet: {self.predmet}, Profesor: {self.profesor}"
+    
+    def get_profesor(self):
+        return self.profesor
+    
+    def get_predmet(self):
+        return self.predmet
