@@ -19,6 +19,13 @@ def connection_close(cursor, connection):
         connection.close()
 
 
+
+
+
+
+#Unosenje osnovnih podataka
+
+
 def unesi_studenta(student):
 
     cursor,connection = connection_open();
@@ -79,6 +86,15 @@ def unesi_ispit(ispit):
 
 
 
+
+
+
+
+
+
+
+
+# ZASO U OVOJ METODI UZIMAMO I PREDMETID I STUDENTID????
 
 def get_predmet_i_student_id(student, predmet):
 
@@ -163,9 +179,27 @@ def get_student(student_id):
     finally:
         connection_close(cursor, connection)
         return student
+    
+def get_ispit(ispit_id):
+
+    cursor, connection = connection_open()
+    query = "SELECT * FROM ispit WHERE idispit LIKE %s"
+    ispit_raw = ""
+
+    try:
+        cursor.execute(query, (ispit_id, ))
+        ispit_raw = cursor.fetchall()
+    
+    except Error as e:
+        print("Error: ", e)
+
+    finally:
+        connection_close(cursor, connection)
+        return ispit_raw
+
        
 
-def get_all_students():
+def get_sve_studente():
     cursor, connection = connection_open()
     query = "SELECT * FROM student"
 
@@ -184,7 +218,7 @@ def get_all_students():
     return students_list
 
 
-def get_all_proffesors():
+def get_sve_profesore():
     cursor, connection = connection_open()
     query = "SELECT * FROM profesor"
 
@@ -203,7 +237,7 @@ def get_all_proffesors():
     return proffesor_list
 
 
-def get_all_predmete():
+def get_sve_predmete():
     cursor, connection = connection_open()
     query = "SELECT * FROM predmet"
 
@@ -220,6 +254,27 @@ def get_all_predmete():
 
     connection_close(cursor, connection)
     return predmet_list
+
+
+
+def get_sve_ispite():
+        cursor, connection = connection_open()
+        query = "SELECT * FROM ispit"
+
+        try:
+            cursor.execute(query)
+            ispiti = cursor.fetchall()
+        except Error as e:
+            print("Error: ", e)
+
+        ispiti_list = []
+    
+        for x in ispiti:
+            ispiti_list.append(clss.ispit(x[0],x[1],x[2]))
+
+        connection_close(cursor, connection)
+        return ispiti_list
+
     
 
 def upis_ocene(student, ispit, ocena):
@@ -238,9 +293,29 @@ def upis_ocene(student, ispit, ocena):
         connection_close(cursor, connection)
 
 
+def svi_ispiti_studenta(student):
+
+    cursor, connection = connection_open()
+    query = "SELECT * FROM student_has_ispit WHERE student_idstudent LIKE %s"
+    data = (student.id, )
+    ispiti = ""
+
+    try:
+        cursor.execute(query,data)
+        ispiti = cursor.fetchall()
+
+    except Error as e:
+        print("Error: ", e)
+
+    finally:
+        connection_close(cursor, connection)
         
+        for ispit in ispiti:
+            print(ispit)
+
+        return ispiti
     
-    
-    
+
+
 
 

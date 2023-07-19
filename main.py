@@ -1,23 +1,19 @@
 import dataBase as db
-import mysql.connector
-from mysql.connector import Error
 import classes as clss
     
 
 def main():
     
-    ime = input("ime profesora: ")
-    prezime = input("prezime profesora:")
+    studenti = db.get_all_students()
 
-    profa = clss.profesor(0 ,ime, prezime)
+    print("Izaberi studenta ")
+    i = 1
+    for student in studenti:
+        print(student)
+        i = i + 1
 
-    db.unesi_profesora(profa)
+    br = int(input("unesite redni broj studenta: "))
 
-    
-
-
-
-    
-
+    br = br - 1
 
 main()
